@@ -4,6 +4,7 @@ public class Przystan {
     static int REJS=3;
     static int KONIEC_REJSU=4;
     static int KATASTROFA=5;
+    static int DODAWANIE=6;
     int ilosc_miejsc;
     int ilosc_zajetych;
     int ilosc_statkow;
@@ -19,7 +20,7 @@ public class Przystan {
     }
     synchronized int cumowanie(){
         try{
-            Thread.sleep(100);
+            Thread.sleep(30);
         }
         catch(Exception ie){ System.out.println("Exception"+ie);}
         if(ilosc_zajetych<ilosc_miejsc){

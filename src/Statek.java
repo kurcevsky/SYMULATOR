@@ -6,18 +6,23 @@ public class Statek extends Thread {
     static int REJS=3;
     static int KONIEC_REJSU=4;
     static int KATASTROFA=5;
+    static int DODAWANIE=6;
     static int TANKUJ=50;
     static int REZERWA=20;
     //zmienne pomocnicze
+    String nazwa;
     int numer;
     int paliwo;
     int stan;
+    int ilosc_pasazerow;
     Przystan p;
     Random rand;
-    public Statek(int numer, int paliwo, Przystan p){
+    public Statek(String nazwa, int numer, int paliwo, int ilosc_pasazerow, Przystan p){
+        this.nazwa=nazwa;
         this.numer=numer;
         this.paliwo=paliwo;
         this.stan=REJS;
+        this.ilosc_pasazerow=ilosc_pasazerow;
         this.p=p;
         rand=new Random();
     }
@@ -27,7 +32,8 @@ public class Statek extends Thread {
                 if(rand.nextInt(2)==1){
                     stan=START;
                     paliwo=TANKUJ;
-                    System.out.println("Statek "+numer+" chce wyplynac w rejs");
+                    ilosc_pasazerow+=rand.nextInt(50);
+                    System.out.println("Statek "+nazwa+"["+numer+"] chce wyplynac w rejs");
                             stan=p.start(numer);
                 }
                 else{
@@ -35,12 +41,17 @@ public class Statek extends Thread {
                 }
             }
             else if(stan==START){
-                System.out.println("Wyruszylem, statek "+numer);
+                if(ilosc_pasazerow>70)
+                {
+                    System.out.println("Statek "+nazwa+" ma za duzo pasazerow! "+"["+ilosc_pasazerow+"]");
+                    stan=PRZYSTAN;
+                }
+                System.out.println("Wyruszylem, statek "+nazwa+"["+numer+"]");
                 stan=REJS;
             }
             else if(stan==REJS){
                 paliwo-=rand.nextInt(15);
-                System.out.println("Statek "+numer+" w drodze!");
+                System.out.println("Statek "+nazwa+"["+numer+"] w drodze!");
                 if(paliwo<=REZERWA){
                     stan=KONIEC_REJSU;
                 }
@@ -50,7 +61,7 @@ public class Statek extends Thread {
                     stan=KATASTROFA;
                 }
                 else try{
-                        Thread.sleep(rand.nextInt(30));
+                        Thread.sleep(rand.nextInt(100));
                 }
                 catch (Exception e){System.out.println("Error "+e);
                 }
@@ -59,13 +70,15 @@ public class Statek extends Thread {
                 System.out.println("Prosze o pozowolenie na cumowanie statku "+numer+" ilosc paliwa "+paliwo);
                 stan=p.cumowanie();
                 if(stan==KONIEC_REJSU){
-                    paliwo-=rand.nextInt(10);
+                    paliwo-=rand.nextInt(30);
                     System.out.println("REZERWA "+paliwo);
                     if(paliwo<=0) stan=KATASTROFA;
                 }
             }
             else if(stan==KATASTROFA){
-                System.out.println("Statek "+numer+" nie ma paliwa, potrzebna pomoc");
+                System.out.println("Statek "+nazwa+"["+numer+"] nie ma paliwa, potrzebna pomoc");
                 p.zmniejsz();
             }
-        }} }
+        }
+    }
+}
