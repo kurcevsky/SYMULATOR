@@ -1,10 +1,10 @@
 public class Przystan {
     static int PRZYSTAN=1;
     static int START=2;
-    static int REJS=3;
+//    static int REJS=3;
     static int KONIEC_REJSU=4;
-    static int KATASTROFA=5;
-    static int DODAWANIE=6;
+//    static int KATASTROFA=5;
+//    static int DODAWANIE=6;
     int ilosc_miejsc;
     int ilosc_zajetych;
     int ilosc_statkow;

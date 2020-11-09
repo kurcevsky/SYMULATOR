@@ -6,7 +6,6 @@ public class Statek extends Thread {
     static int REJS=3;
     static int KONIEC_REJSU=4;
     static int KATASTROFA=5;
-    static int DODAWANIE=6;
     static int TANKUJ=50;
     static int REZERWA=20;
     //zmienne pomocnicze
